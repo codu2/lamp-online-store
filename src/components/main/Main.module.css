@@ -1,0 +1,54 @@
+.main-container {
+  width: 100%;
+  height: calc(100vh - 98px);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  position: relative;
+}
+
+.left-section {
+  width: 100%;
+  height: 100%;
+}
+
+.left-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.paragraph {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 30%;
+  left: 55%;
+}
+
+.paragraph h1 {
+  font-size: 35px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.paragraph p {
+  font-weight: 20px;
+  margin-top: 15px;
+}
+
+.more-button {
+  border: 1px solid #000;
+  padding: 0.75rem 1rem;
+  background-color: #fff;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  margin-top: 35px;
+  cursor: pointer;
+  width: 80%;
+}
+
+.more-button:hover {
+  background-color: #000;
+  color: #fff;
+}

@@ -1,0 +1,9 @@
+.user {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 500px;
+  background-color: #fff;
+}

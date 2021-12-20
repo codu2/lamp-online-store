@@ -1,0 +1,17 @@
+.products {
+  margin: 2rem 0;
+}
+
+.products h1 {
+  text-align: center;
+  font-size: 25px;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.products-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
