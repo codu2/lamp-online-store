@@ -1,0 +1,81 @@
+.order-form {
+  width: 100%;
+  height: 100%;
+  padding: 0 25px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #fff;
+}
+
+.order-form h1 {
+  text-align: center;
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.form-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-box label {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.input-box input {
+  width: 300px;
+  height: 35px;
+  margin-bottom: 12px;
+  outline: none;
+  padding: 5px 10px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.prev-button {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  font-size: 20px;
+  cursor: pointer;
+  color: #fff;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.prev-button:hover {
+  background-color: #fff;
+  color: olive;
+}
+
+.order-button {
+  border: none;
+  outline: none;
+  width: 100px;
+  height: 45px;
+  font-size: 15px;
+  font-weight: 700;
+  background-color: olive;
+  color: #fff;
+  cursor: pointer;
+}
+
+.order-button:hover {
+  background-color: #fff;
+  color: olive;
+}
