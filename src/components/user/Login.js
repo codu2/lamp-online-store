@@ -2,7 +2,7 @@ import React from 'react';
 
 import classes from './Login.module.css';
 
-const Login = () => {
+const Login = props => {
     return (
         <div className={classes['login-form']}>
             <h1>Login</h1>
@@ -20,7 +20,7 @@ const Login = () => {
             </div>
             <div className={classes['form-trans']}>
                 <p>Don't have an account?</p>
-                <button>Sign up</button>
+                <button onClick={props.onTrans}>Sign up</button>
             </div>
             <div className={classes.actions}>
                 <button className={classes['login-button']}>Log in</button>
