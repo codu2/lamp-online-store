@@ -1,0 +1,90 @@
+.signup-form {
+  width: 100%;
+  height: 100%;
+  padding: 0 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.signup-form h1 {
+  text-align: center;
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-box label {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.input-box input {
+  width: 300px;
+  height: 28px;
+  margin-bottom: 12px;
+  outline: none;
+  padding: 5px 10px;
+}
+
+.form-trans {
+  text-align: center;
+  margin-top: 0.75rem;
+  padding: 0.5rem 0;
+  border-top: 1px dashed olive;
+  border-bottom: 1px dashed olive;
+}
+
+.form-trans p {
+  font-size: 14px;
+  color: green;
+}
+
+.form-trans button {
+  border: none;
+  color: green;
+  font-weight: 700;
+  font-size: 15px;
+  background-color: transparent;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signup-button {
+  width: 100%;
+  height: 45px;
+  background-color: olive;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 1.5rem 0 1rem;
+  cursor: pointer;
+}
+
+.find-button {
+  border: none;
+  border-bottom: 1px solid transparent;
+  background-color: transparent;
+  color: green;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding-bottom: 5px;
+}
+
+.find-button:hover {
+  border-bottom: 1px solid green;
+}
