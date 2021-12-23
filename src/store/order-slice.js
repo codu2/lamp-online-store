@@ -3,14 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 const orderSlice = createSlice({
     name: 'order',
     initialState: {
-        name: null,
+        phoneNumber: null,
         street: null,
         postalCode: null,
         city: null
     },
     reducers: {
         saveOrder(state, action) {
-            state.name = action.payload.name;
+            state.phoneNumber = action.payload.phoneNumber;
             state.street = action.payload.street;
             state.postalCode = action.payload.postalCode;
             state.city = action.payload.city;
