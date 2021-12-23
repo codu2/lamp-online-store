@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import classes from './Login.module.css';
@@ -12,26 +12,20 @@ const Login = props => {
     const beStoredLogin = useSelector(state => state.login);
     const touched = useSelector(state => state.input.touched);
 
-    const nameInputRef = useRef();
-    const emailInputRef = useRef();
-    const passwordInputRef = useRef();
+    const [enteredName, setEnteredName] = useState('');
+    const [enteredEmail, setEnteredEmail] = useState('');
+    const [enteredPassword, setEnteredPassword] = useState('');
     
     const submitHandler = event => {
         event.preventDefault();
-
-        const enteredName = nameInputRef.current.value;
-        const enteredEmail = emailInputRef.current.value;
-        const enteredPassword = passwordInputRef.current.value;
 
         dispatch(inputActions.touchedName(true));
         dispatch(inputActions.touchedEmail(true));
         dispatch(inputActions.touchedPassword(true));
 
-        dispatch(inputActions.loginFormIsValid({
-            enteredName,
-            enteredEmail,
-            enteredPassword
-        }));
+        dispatch(inputActions.nameFormIsValid(enteredName));
+        dispatch(inputActions.emailFormIsValid(enteredEmail));
+        dispatch(inputActions.passwordFormIsValid(enteredPassword));
 
         dispatch(loginActions.saveLogin({
             name: enteredName,
@@ -53,6 +47,10 @@ const Login = props => {
                 email: beStoredLogin.email,
                 password: beStoredLogin.password
             }));
+            
+            setEnteredName('');
+            setEnteredEmail('');
+            setEnteredPassword('');
         };
     }, [beStoredLogin]);
 
@@ -60,22 +58,28 @@ const Login = props => {
     const emailCheck = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     const passwordCheck = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*$?&]{8,16}$/;
 
-    const nameChangeHandler = () => {
+    const nameChangeHandler = event => {
         if(isNotEmpty) {
             dispatch(inputActions.touchedName(false));
-        }
+        };
+        setEnteredName(event.target.value);
+        dispatch(inputActions.nameFormIsValid(event.target.value));
     };
 
     const emailChangeHandler = event => {
         if(emailCheck.test(event.target.value.trim()) || isNotEmpty) {
             dispatch(inputActions.touchedEmail(false));
-        }
+        };
+        setEnteredEmail(event.target.value);
+        dispatch(inputActions.emailFormIsValid(event.target.value));
     };
 
     const passwordChangeHandler = event => {
         if(passwordCheck.test(event.target.value.trim()) || isNotEmpty) {
             dispatch(inputActions.touchedPassword(false));
-        }
+        };
+        setEnteredPassword(event.target.value);
+        dispatch(inputActions.passwordFormIsValid(event.target.value));
     };
     
     const nameBlurHander = event => {
@@ -105,18 +109,18 @@ const Login = props => {
             <h1>Login</h1>
             <div className={classes['input-box']}>
                 <label htmlFor='name'>Name</label>
-                <input type='text' id="name" autoComplete='off' ref={nameInputRef} onChange={nameChangeHandler} onBlur={nameBlurHander} />
-                {!login.nameIsValid || touched.name && <p>Please enter a valid name!</p>}
+                <input type='text' id="name" autoComplete='off' value={enteredName} onChange={nameChangeHandler} onBlur={nameBlurHander} />
+                {!login.nameIsValid || touched.name ? <p>Please enter a valid name!</p> : null}
             </div>
             <div className={classes['input-box']}>
                 <label htmlFor='email'>E-mail</label>
-                <input type='text' id="email" autoComplete='off' ref={emailInputRef} onChange={emailChangeHandler} onBlur={emailBlurHandler} />
-                {!login.emailIsValid || touched.email && <p>Please enter a valid email!</p>}
+                <input type='text' id="email" autoComplete='off' value={enteredEmail} onChange={emailChangeHandler} onBlur={emailBlurHandler} />
+                {!login.emailIsValid || touched.email ? <p>Please enter a valid email!</p> : null}
             </div>
             <div className={classes['input-box']}>
                 <label htmlFor='password'>Password</label>
-                <input type='text' id="password" autoComplete='off' ref={passwordInputRef} onChange={passwordChangeHandler} onBlur={passwordBlurHandler} />
-                {!login.passwordIsValid || touched.password && <p>Password must be 8-16 characters and contain both numbers and letters/special characters.</p>}
+                <input type='text' id="password" autoComplete='off' value={enteredPassword} onChange={passwordChangeHandler} onBlur={passwordBlurHandler} />
+                {!login.passwordIsValid || touched.password ? <p>Password must be 8-16 characters and contain both numbers and letters/special characters.</p> : null}
             </div>
             <div className={classes['form-trans']}>
                 <p>Don't have an account?</p>
