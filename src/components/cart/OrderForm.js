@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import classes from './OrderForm.module.css';
@@ -14,30 +14,23 @@ const OrderForm = () => {
     const beStoredOrder = useSelector(state => state.order);
     const touched = useSelector(state => state.input.touched);
 
-    const phoneNumberInputRef = useRef();
-    const streetInputRef = useRef();
-    const postalCodeInputRef = useRef();
-    const cityInputRef = useRef();
+    const [enteredPhoneNumber, setEnteredPhoneNumber] = useState('');
+    const [enteredStreet, setEnteredStreet] = useState('');
+    const [enteredPostalCode, setEnteredPostalCode] = useState('');
+    const [enteredCity, setEnteredCity] = useState('');
 
     const submitHandler = event => {
         event.preventDefault();
-
-        const enteredPhoneNumber = phoneNumberInputRef.current.value;
-        const enteredStreet = streetInputRef.current.value;
-        const enteredPostalCode = postalCodeInputRef.current.value;
-        const enteredCity = cityInputRef.current.value;
         
         dispatch(inputActions.touchedPhoneNumber(true));
         dispatch(inputActions.touchedStreet(true));
         dispatch(inputActions.touchedPostalCode(true));
         dispatch(inputActions.touchedCity(true));
-
-        dispatch(inputActions.orderFormIsValid({
-            enteredPhoneNumber,
-            enteredStreet,
-            enteredPostalCode,
-            enteredCity
-        }));
+        
+        dispatch(inputActions.phoneNumberFormIsValid(enteredPhoneNumber));
+        dispatch(inputActions.streetFormIsValid(enteredStreet));
+        dispatch(inputActions.postalCodeFormIsValid(enteredPostalCode));
+        dispatch(inputActions.cityFormIsValid(enteredCity));
 
         dispatch(orderActions.saveOrder({
             phoneNumber: enteredPhoneNumber,
@@ -62,6 +55,11 @@ const OrderForm = () => {
                 postalCode: beStoredOrder.postalCode,
                 city: beStoredOrder.city
             }));  
+            
+            setEnteredPhoneNumber('');
+            setEnteredStreet('');
+            setEnteredPostalCode('');
+            setEnteredCity('');
         };
     }, [beStoredOrder]);
 
@@ -76,22 +74,30 @@ const OrderForm = () => {
     const phoneNumberChangedHandler = event => {
         if(phoneNumberCheck.test(event.target.value.trim()) || isNotEmpty){
             dispatch(inputActions.touchedPhoneNumber(false));
-        }
+        };
+        setEnteredPhoneNumber(event.target.value);
+        dispatch(inputActions.phoneNumberFormIsValid(enteredPhoneNumber));
     };
-    const streetChangedHandler = () => {
+    const streetChangedHandler = event => {
         if(isNotEmpty) {
             dispatch(inputActions.touchedStreet(false));
-        }
+        };
+        setEnteredStreet(event.target.value);
+        dispatch(inputActions.streetFormIsValid(enteredStreet));
     };
     const postalCodeChangedHandler = event => {
         if(isFiveNum.test(event.target.value.trim()) || isNotEmpty) {
             dispatch(inputActions.touchedPostalCode(false));
-        }
+        };
+        setEnteredPostalCode(event.target.value);
+        dispatch(inputActions.postalCodeFormIsValid(enteredPostalCode));
     };
-    const cityChangedHandler = () => {
+    const cityChangedHandler = event => {
         if(isNotEmpty) {
             dispatch(inputActions.touchedCity(false));
-        }
+        };
+        setEnteredCity(event.target.value);
+        dispatch(inputActions.cityFormIsValid(enteredCity));
     }; 
 
     const phoneNumberBlurHandler = event => {
@@ -127,23 +133,23 @@ const OrderForm = () => {
             <div className={classes['form-box']}>
                 <div className={phoneNumberClasses}>
                     <label htmlFor='name'>Name</label>
-                    <input type='text' id="name" autoComplete='off' ref={phoneNumberInputRef} onChange={phoneNumberChangedHandler} onBlur={phoneNumberBlurHandler} />
-                    {!order.phoneNumberIsValid || touched.phoneNumber && <p>Please enter a valid number!</p>}
+                    <input type='text' id="name" autoComplete='off' value={enteredPhoneNumber} onChange={phoneNumberChangedHandler} onBlur={phoneNumberBlurHandler} />
+                    {!order.phoneNumberIsValid || touched.phoneNumber ? <p>Please enter a valid number!</p> : null}
                 </div>
                 <div className={streetClasses}>
                     <label htmlFor='street'>Street</label>
-                    <input type='text' id="street"  autoComplete='off' ref={streetInputRef} onChange={streetChangedHandler} onBlur={streetBlurHandler} />
-                    {!order.streetIsValid || touched.street && <p>Please enter a valid street!</p>}
+                    <input type='text' id="street"  autoComplete='off' value={enteredStreet} onChange={streetChangedHandler} onBlur={streetBlurHandler} />
+                    {!order.streetIsValid || touched.street ? <p>Please enter a valid street!</p> : null}
                 </div>
                 <div className={postalCodeClasses}>
                     <label htmlFor='postal'>Postal Code</label>
-                    <input type='text' id="postal"  autoComplete='off' ref={postalCodeInputRef} onChange={postalCodeChangedHandler} onBlur={postalCodeBlurHandler} />
-                    {!order.postalCodeIsValid || touched.postalCode && <p>Please enter a valid postal code!(5 characters)</p>}
+                    <input type='text' id="postal"  autoComplete='off' value={enteredPostalCode} onChange={postalCodeChangedHandler} onBlur={postalCodeBlurHandler} />
+                    {!order.postalCodeIsValid || touched.postalCode ? <p>Please enter a valid postal code!(5 characters)</p> : null}
                 </div>
                 <div className={cityClasses}>
                     <label htmlFor='city'>City</label>
-                    <input type='text' id="city"  autoComplete='off' ref={cityInputRef} onChange={cityChangedHandler} onBlur={cityBlurHandler} />
-                    {!order.cityIsValid || touched.city && <p>Please enter a valid city!</p>}
+                    <input type='text' id="city"  autoComplete='off' value={enteredCity} onChange={cityChangedHandler} onBlur={cityBlurHandler} />
+                    {!order.cityIsValid || touched.city ? <p>Please enter a valid city!</p> : null}
                 </div>
             </div>
             <div className={classes.actions}>
