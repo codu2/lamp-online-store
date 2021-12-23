@@ -1,6 +1,35 @@
 import { uiActions } from "./ui-slice";
 import { cartActions } from "./cart-slice";
 
+export const sendUserData = user => {
+    return async (dispatch) => {
+        const sendRequest = async () => {
+            const response = await fetch('YOUR FIREBASE URL/user.json', {
+                method: 'PUT',
+                body: JSON.stringify({
+                    name: user.name,
+                    email: user.email,
+                    password: user.password
+                })
+            });
+
+            if(!response.ok) {
+                throw new Error ('Sending user data failed.');
+            };
+        };
+
+        try {
+            await sendRequest();
+        } catch(error) {
+            dispatch(uiActions.showRequestResult({
+                status: 'error',
+                title: 'Error',
+                message: 'Sending user data failed.'
+            }));
+        }
+    }
+}
+
 export const fetchCartData = () => {
     return async (dispatch) => {
         const fetchData = async () => {
@@ -26,7 +55,7 @@ export const fetchCartData = () => {
             dispatch(uiActions.showRequestResult({
                 status: 'error',
                 title: 'Error',
-                message: 'Fetching cart data failed.'
+                message: 'Fetching cart data failed. Please reloading page.'
             }));
         }
     }
