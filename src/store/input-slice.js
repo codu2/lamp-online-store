@@ -36,6 +36,33 @@ const inputSlice = createSlice({
         touchedPassword(state, action) {
             state.touched.password = action.payload;
         },
+        nameFormIsValid(state, action) {
+            const isEmpty = value => value.trim() === '';
+
+            if(isEmpty(action.payload)) {
+                state.login.nameIsValid = false;
+            } else {
+                state.login.nameIsValid = true;
+            };
+        },
+        emailFormIsValid(state, action) {
+            const emailCheck = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+
+            if(!emailCheck.test(action.payload)) {
+                state.login.emailIsValid = false;
+            } else {
+                state.login.emailIsValid = true;
+            };
+        },
+        passwordFormIsValid(state, action) {
+            const passwordCheck = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*$?&]{8,16}$/;
+
+            if(!passwordCheck.test(action.payload)) {
+                state.login.passwordIsValid = false;
+            } else {
+                state.login.passwordIsValid = true;
+            };
+        },
         loginFormIsValid(state, action) {
             const isEmpty = value => value.trim() === '';
 
@@ -61,6 +88,9 @@ const inputSlice = createSlice({
                 state.login.passwordIsValid = true;
             };
         },
+        loginInputFormIsValid(state) {
+            state.login.formIsValid = state.login.nameIsValid && state.login.emailIsValid && state.login.passwordIsValid;
+        },
         touchedPhoneNumber(state, action) {
             state.touched.phoneNumber = action.payload;
         },
@@ -73,8 +103,43 @@ const inputSlice = createSlice({
         touchedCity(state, action) {
             state.touched.city = action.payload;
         },
-        loginInputFormIsValid(state) {
-            state.login.formIsValid = state.login.nameIsValid && state.login.emailIsValid && state.login.passwordIsValid;
+        phoneNumberFormIsValid(state, action) {
+            const isEmpty = value => value.trim() === '';
+            const phoneNumberCheck = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+
+            if(!phoneNumberCheck.test(action.payload) || isEmpty(action.payload)) {
+                state.order.phoneNumberIsValid = false;
+            } else {
+                state.order.phoneNumberIsValid = true;
+            };
+        },
+        streetFormIsValid(state, action) {
+            const isEmpty = value => value.trim() === '';
+
+            if(isEmpty(action.payload)) {
+                state.order.streetIsValid = false;
+            } else {
+                state.order.streetIsValid = true;
+            };
+        },
+        postalCodeFormIsValid(state, action) {
+            const isEmpty = value => value.trim() === '';
+            const isFiveNum = /^\d{5}$/;
+
+            if(!isFiveNum.test(action.payload)|| isEmpty(action.payload)) {
+                state.order.postalCodeIsValid = false;
+            } else {
+                state.order.postalCodeIsValid = true;
+            };
+        },
+        cityFormIsValid(state, action) {
+            const isEmpty = value => value.trim() === '';
+
+            if(isEmpty(action.payload)) {
+                state.order.cityIsValid = false;
+            } else {
+                state.order.cityIsValid = true;
+            };  
         },
         orderFormIsValid(state, action) {
             const isEmpty = value => value.trim() === '';
