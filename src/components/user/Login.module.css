@@ -11,7 +11,7 @@
   text-align: center;
   font-size: 25px;
   font-weight: 700;
-  margin-bottom: 1.5rem;
+  margin-bottom: 12px;
 }
 
 .input-box {
@@ -22,12 +22,12 @@
 .input-box label {
   margin-bottom: 5px;
   font-size: 14px;
+  margin-top: 12px;
 }
 
 .input-box input {
   width: 300px;
   height: 28px;
-  margin-bottom: 12px;
   outline: none;
   padding: 5px 10px;
 }
@@ -87,4 +87,17 @@
 
 .find-button:hover {
   border-bottom: 1px solid green;
+}
+
+.invalid label {
+  color: red;
+}
+
+.invalid input {
+  border: 1px solid red;
+}
+
+.invalid p {
+  font-size: 10px;
+  margin-top: 5px;
 }
