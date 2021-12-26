@@ -11,10 +11,11 @@
 
 .user {
   position: absolute;
-  top: 20%;
+  top: 17%;
   left: 50%;
   transform: translateX(-50%);
   width: 400px;
-  height: 500px;
+  height: 520px;
   background-color: #fff;
+  z-index: 20;
 }
