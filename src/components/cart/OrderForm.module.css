@@ -29,12 +29,12 @@
 .input-box label {
   margin-bottom: 5px;
   font-size: 14px;
+  margin-top: 12px;
 }
 
 .input-box input {
   width: 300px;
-  height: 35px;
-  margin-bottom: 12px;
+  height: 30px;
   outline: none;
   padding: 5px 10px;
 }
@@ -78,4 +78,17 @@
 .order-button:hover {
   background-color: #fff;
   color: olive;
+}
+
+.invalid label {
+  color: red;
+}
+
+.invalid input {
+  border: 1px solid red;
+}
+
+.invalid p {
+  font-size: 12px;
+  margin-top: 5px;
 }
