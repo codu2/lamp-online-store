@@ -1,6 +1,32 @@
 import { uiActions } from "./ui-slice";
 import { cartActions } from "./cart-slice";
 
+export const signupRequest = user => {
+    return async () => {
+        const sendRequest = async () => {
+            const response = await fetch('YOUR FIREBASE URL/users.json', {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: user.name,
+                    email: user.email,
+                    password: user.password
+                })
+            });
+            
+            if(!response.ok) {
+                throw new Error ('Error');
+            };
+        };
+
+        try {
+            await sendRequest();
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+
 export const sendUserData = user => {
     return async (dispatch) => {
         const sendRequest = async () => {
