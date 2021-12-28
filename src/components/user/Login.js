@@ -15,13 +15,22 @@ const Login = props => {
     const [enteredName, setEnteredName] = useState('');
     const [enteredEmail, setEnteredEmail] = useState('');
     const [enteredPassword, setEnteredPassword] = useState('');
+    const [isSubmitted, setIsSubmitted] = useState(true);
     
     const submitHandler = event => {
         event.preventDefault();
 
-        dispatch(inputActions.touchedName(true));
-        dispatch(inputActions.touchedEmail(true));
-        dispatch(inputActions.touchedPassword(true));
+        if(!login.nameIsValid) {
+            dispatch(inputActions.touchedName(true));
+        };
+        
+        if(!login.emailIsValid) {
+            dispatch(inputActions.touchedEmail(true));
+        };
+        
+        if(!login.passwordIsValid) {
+            dispatch(inputActions.touchedPassword(true));
+        };
 
         dispatch(inputActions.nameFormIsValid(enteredName));
         dispatch(inputActions.emailFormIsValid(enteredEmail));
@@ -34,6 +43,11 @@ const Login = props => {
         }));
 
         dispatch(inputActions.loginInputFormIsValid());
+        
+        if(!login.formIsValid) {
+            setIsSubmitted(false);
+            return;
+        }
     };
 
     useEffect(() => {
@@ -59,45 +73,75 @@ const Login = props => {
     const passwordCheck = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*$?&]{8,16}$/;
 
     const nameChangeHandler = event => {
-        if(isNotEmpty) {
-            dispatch(inputActions.touchedName(false));
-        };
+        dispatch(inputActions.touchedName(false));
+        if(touched.name) {
+            if(isNotEmpty) {
+                dispatch(inputActions.nameFormIsValid(event.target.value));
+            }
+        }
+        if(!isSubmitted) {
+            if(isNotEmpty) {
+                dispatch(inputActions.nameFormIsValid(event.target.value));
+            }
+        }
         setEnteredName(event.target.value);
-        dispatch(inputActions.nameFormIsValid(event.target.value));
     };
 
     const emailChangeHandler = event => {
-        if(emailCheck.test(event.target.value.trim()) || isNotEmpty) {
-            dispatch(inputActions.touchedEmail(false));
-        };
+        dispatch(inputActions.touchedEmail(false));  
+        if(touched.email) {
+            if(isNotEmpty) {
+                dispatch(inputActions.emailFormIsValid(event.target.value));
+            }
+        }
+        if(!isSubmitted) {
+            if(emailCheck.test(event.target.value.trim()) || isNotEmpty) {
+                dispatch(inputActions.emailFormIsValid(event.target.value));
+            }
+        }
         setEnteredEmail(event.target.value);
-        dispatch(inputActions.emailFormIsValid(event.target.value));
     };
 
     const passwordChangeHandler = event => {
-        if(passwordCheck.test(event.target.value.trim()) || isNotEmpty) {
-            dispatch(inputActions.touchedPassword(false));
-        };
+        dispatch(inputActions.touchedPassword(false));
+        if(touched.password) {
+            if(isNotEmpty) {
+                dispatch(inputActions.passwordFormIsValid(event.target.value));
+            }
+        }
+        if(!isSubmitted) {
+            if(passwordCheck.test(event.target.value.trim()) || isNotEmpty) {
+                dispatch(inputActions.passwordFormIsValid(event.target.value));
+            }
+        }
         setEnteredPassword(event.target.value);
-        dispatch(inputActions.passwordFormIsValid(event.target.value));
     };
     
     const nameBlurHander = event => {
         if(event.target.value.trim() === '') {
             dispatch(inputActions.touchedName(true));
-        }
+        } else {
+            dispatch(inputActions.touchedName(false));
+        };
+        dispatch(inputActions.nameFormIsValid(event.target.value));
     };
 
     const emailBlurHandler = event => {
         if(!emailCheck.test(event.target.value.trim())) {
             dispatch(inputActions.touchedEmail(true));
-        }
+        } else {
+            dispatch(inputActions.touchedEmail(false));
+        };
+        dispatch(inputActions.emailFormIsValid(event.target.value));
     };
 
     const passwordBlurHandler = event => {
         if(!passwordCheck.test(event.target.value.trim())) {
             dispatch(inputActions.touchedPassword(true));
-        }
+        } else {
+            dispatch(inputActions.touchedPassword(false));
+        };
+        dispatch(inputActions.passwordFormIsValid(event.target.value));
     };
 
     const nameClasses = `${classes['input-box']} ${login.nameIsValid && !touched.name ? '' : classes.invalid}`;
