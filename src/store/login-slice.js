@@ -3,15 +3,26 @@ import { createSlice } from '@reduxjs/toolkit';
 const loginSlice = createSlice({
     name: 'login',
     initialState: {
-        name: null,
-        email: null,
-        password: null
+       input: {
+            email: null,
+            password: null
+        },
+        exist: {
+            name: false,
+            email: true, // login을 위해 초기 설정을 false가 아닌 true로 함
+            password: true // login 시 검증을 위해 true로 설정
+        },
     },
     reducers: {
         saveLogin(state, action) {
-            state.name = action.payload.name;
             state.email = action.payload.email;
             state.password = action.payload.password;
+        },
+        matchingPassword(state, action) {
+            state.exist.password = action.payload;
+        },
+        existingEmail(state, action) {
+            state.exist.email = action.payload;
         }
     }
 });
