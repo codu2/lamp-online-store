@@ -8,9 +8,13 @@ const uiSlice = createSlice({
             user: false,
             cart: false
         },
-        isOrderFormVisible: false
+        isOrderFormVisible: false,
+        loggingIn: false
     },
     reducers: {
+        toggleLoggingIn(state, action) {
+            state.loggingIn = action.payload;
+        },
         showRequestResult(state, action) {
             state.notification = {
                 status: action.payload.status,
@@ -18,8 +22,8 @@ const uiSlice = createSlice({
                 message: action.payload.message
             }
         },
-        toggleUserForm(state) {
-            state.formControl.user = !state.formControl.user;
+        toggleUserForm(state, action) {
+            state.formControl.user = action.payload;
         },
         toggleCart(state) {
             state.formControl.cart = !state.formControl.cart;
