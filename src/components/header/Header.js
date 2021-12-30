@@ -13,9 +13,16 @@ const Header = () => {
     const cartTotalQuantity = useSelector(state => state.cart.totalQuantity);
     const userControl = useSelector(state => state.ui.formControl.user);
     const cartControl = useSelector(state => state.ui.formControl.cart);
+    const loggingIn = useSelector(state => state.ui.loggingIn);
 
     const toggleLoginHandler = () => {
-        dispatch(uiActions.toggleUserForm());
+        if(loggingIn) {
+            dispatch(uiActions.toggleUserForm(false));
+            dispatch(uiActions.toggleLoggingIn(false));
+            window.location.replace("/");
+        } else {
+            dispatch(uiActions.toggleUserForm(true));
+        };
     };
 
     const closeLoginHanlder = () => {
@@ -29,6 +36,8 @@ const Header = () => {
     const closeCartHandler = () => {
         dispatch(uiActions.closeCartForm());
     };
+    
+    const userUi = loggingIn ? 'Logout' : 'Login';
 
     return (
         <React.Fragment>
@@ -50,7 +59,7 @@ const Header = () => {
                         <span>{cartTotalQuantity}</span>
                     </div>
                     <div className={classes.login} onClick={toggleLoginHandler}>
-                        <span>Login</span>
+                        <span>{userUi}</span>
                         <RiLoginBoxLine />
                     </div>
                 </div>
