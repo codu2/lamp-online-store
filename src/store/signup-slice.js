@@ -18,9 +18,24 @@ const signupSlice = createSlice({
             name: false,
             email: false,
             password: false
-        }
+        },
+        exist: {
+            name: false,
+            email: false, 
+            password: false 
+        },
+        users: []
     },
     reducers: {
+        existingEmail(state, action) {
+            state.exist.email = action.payload;
+        },
+        existingUser(state, action) {
+            state.exist.name = action.payload;
+        },
+        replaceUsers(state, action) {
+            state.users = action.payload;
+        },
         saveSignup(state, action) {
             state.name = action.payload.name;
             state.email = action.payload.email;
