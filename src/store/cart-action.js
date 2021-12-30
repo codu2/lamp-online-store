@@ -1,5 +1,30 @@
 import { uiActions } from "./ui-slice";
 import { cartActions } from "./cart-slice";
+import { signupActions } from "./signup-slice";
+
+export const fetchUsersData = () => {
+    return async (dispatch) => {
+        const fetchData = async () => {
+            const response = await fetch('YOUR FIREBASE URL/users.json');
+
+            if(!response.ok) {
+                throw new Error ('Fetching users data failed!');
+            };
+
+            const data = response.json();
+
+            return data;
+        };
+
+        try {
+            const users = await fetchData();
+
+            dispatch(signupActions.replaceUsers(users));
+        } catch (error) {   
+            console.log(error)
+        }
+    }
+};
 
 export const signupRequest = user => {
     return async () => {
@@ -21,7 +46,7 @@ export const signupRequest = user => {
         try {
             await sendRequest();
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 }
@@ -33,7 +58,6 @@ export const sendUserData = user => {
             const response = await fetch('YOUR FIREBASE URL/user.json', {
                 method: 'PUT',
                 body: JSON.stringify({
-                    name: user.name,
                     email: user.email,
                     password: user.password
                 })
@@ -47,11 +71,7 @@ export const sendUserData = user => {
         try {
             await sendRequest();
         } catch(error) {
-            dispatch(uiActions.showRequestResult({
-                status: 'error',
-                title: 'Error',
-                message: 'Sending user data failed.'
-            }));
+            console.log(error);
         }
     }
 }
