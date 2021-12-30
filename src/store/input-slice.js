@@ -89,7 +89,7 @@ const inputSlice = createSlice({
             };
         },
         loginInputFormIsValid(state) {
-            state.login.formIsValid = state.login.nameIsValid && state.login.emailIsValid && state.login.passwordIsValid;
+            state.login.formIsValid = state.login.emailIsValid && state.login.passwordIsValid;
         },
         touchedPhoneNumber(state, action) {
             state.touched.phoneNumber = action.payload;
