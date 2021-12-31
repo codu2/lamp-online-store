@@ -101,3 +101,16 @@
   font-size: 10px;
   margin-top: 5px;
 }
+
+.exist label {
+  color: green;
+}
+
+.exist input {
+  border: 1px solid green;
+}
+
+.exist p {
+  font-size: 10px;
+  margin-top: 5px;
+}
