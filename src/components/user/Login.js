@@ -130,8 +130,8 @@ const Login = props => {
         };
     }, [beStoredLogin]);
     
-    const emailClasses = `${classes['input-box']} ${login.emailIsValid && !touched.email ? '' : classes.invalid}`;
-    const passwordClasses = `${classes['input-box']} ${login.passwordIsValid && !touched.password ? '' : classes.invalid}`;
+    const emailClasses = `${classes['input-box']} ${login.emailIsValid && !touched.email ? '' : classes.invalid} ${login.emailIsValid &&!exist.email ? classes.exist : ''}`;
+    const passwordClasses = `${classes['input-box']} ${login.passwordIsValid && !touched.password ? '' : classes.invalid} ${login.passwordIsValid && !exist.password ? classes.exist : ''}`;
   
     return (
         <form className={classes['login-form']} onSubmit={submitHandler}>
