@@ -5,7 +5,7 @@ import './App.css';
 import Header from './components/header/Header';
 import Main from './components/main/Main';
 import Products from './components/products/Products';
-import { fetchCartData, sendCartData } from './store/cart-action';
+import { fetchCartData, sendCartData, fetchUsersData, fetchLoginData } from './store/cart-action';
 
 let isInitial = true;
 
@@ -15,6 +15,8 @@ function App() {
   
   useEffect(() => {
     dispatch(fetchCartData());
+    dispatch(fetchUsersData());
+    dispatch(fetchLoginData());
   }, [dispatch])
 
   useEffect(() => {
