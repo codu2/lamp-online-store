@@ -14,6 +14,10 @@ const loginSlice = createSlice({
         },
     },
     reducers: {
+        replaceLogin(state, action) {
+            state.input.email = action.payload.email;
+            state.input.password = action.payload.password;
+        },
         saveLogin(state, action) {
             state.email = action.payload.email;
             state.password = action.payload.password;
