@@ -16,9 +16,18 @@ const Cart = props => {
     const cartItems = useSelector(state => state.cart.items);
     const notification = useSelector(state => state.ui.notification);
     const isOrderFormVisible = useSelector(state => state.ui.isOrderFormVisible);
-
+    const loggingIn = useSelector(state => state.ui.loggingIn);
+    
     const showOrderFormHandler = () => {
         dispatch(uiActions.showOrderForm());
+        
+        if(!loggingIn) {
+            dispatch(uiActions.showRequestResult({
+                status: null,
+                title: 'No account',
+                message: "Please log in your account to order. If you don't have an account, sign up."
+            }));
+        };
     };
 
     const CartList = () => {
@@ -42,7 +51,7 @@ const Cart = props => {
             <Backdrop onClose={props.onClose} />
             <div className={classes.cart}>
                 {!isOrderFormVisible && <CartList />}
-                {isOrderFormVisible && !notification && <OrderForm />}
+                {isOrderFormVisible && !notification && loggingIn && <OrderForm />}
                 {isOrderFormVisible && notification && <Notification status={notification.status} title={notification.title} message={notification.message} />}
             </div>
         </React.Fragment>
