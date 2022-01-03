@@ -7,6 +7,8 @@ import { RiLoginBoxLine } from 'react-icons/ri';
 import User from '../user/User';
 import Cart from '../cart/Cart';
 import { uiActions } from '../../store/ui-slice';
+import { RiUserSmileLine } from 'react-icons/ri';
+import { sendUserData } from '../../store/cart-action';
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -14,11 +16,17 @@ const Header = () => {
     const userControl = useSelector(state => state.ui.formControl.user);
     const cartControl = useSelector(state => state.ui.formControl.cart);
     const loggingIn = useSelector(state => state.ui.loggingIn);
+    const users = useSelector(state => state.signup.users);
+    const entered = useSelector(state => state.login.input);
 
     const toggleLoginHandler = () => {
         if(loggingIn) {
             dispatch(uiActions.toggleUserForm(false));
             dispatch(uiActions.toggleLoggingIn(false));
+            dispatch(sendUserData({
+                email: null,
+                password: null
+            }));
             window.location.replace("/");
         } else {
             dispatch(uiActions.toggleUserForm(true));
@@ -37,7 +45,27 @@ const Header = () => {
         dispatch(uiActions.closeCartForm());
     };
     
+    let usersName;
+
+    for(const key in users) {
+        if(users[key].email === entered.email) {
+            if(users[key].password === entered.password) {
+                usersName = users[key].name
+                break;
+            };
+        };
+    };
+    
     const userUi = loggingIn ? 'Logout' : 'Login';
+    
+    const profile = (
+        <div className={classes.profile}>
+            <RiUserSmileLine />
+            <span>{usersName}</span>
+        </div>
+    );
+
+    const showProfile = loggingIn ? profile : null;
 
     return (
         <React.Fragment>
@@ -58,6 +86,7 @@ const Header = () => {
                         <span>Cart</span>
                         <span>{cartTotalQuantity}</span>
                     </div>
+                    {showProfile}
                     <div className={classes.login} onClick={toggleLoginHandler}>
                         <span>{userUi}</span>
                         <RiLoginBoxLine />
