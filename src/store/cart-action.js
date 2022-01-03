@@ -1,6 +1,38 @@
 import { uiActions } from "./ui-slice";
 import { cartActions } from "./cart-slice";
 import { signupActions } from "./signup-slice";
+import { loginActions } from "./login-slice";
+
+export const fetchLoginData = () => {
+    return async (dispatch) => {
+        const fetchData = async () => {
+            const response = await fetch('https://react-http-5552c-default-rtdb.firebaseio.com/user.json');
+
+            if(!response.ok) {
+                throw new Error ('Fetching login data failed!');
+            };
+
+            const data = await response.json();
+
+            return data;
+        };
+
+        try {
+            const loginData = await fetchData();
+
+            if(loginData) {
+                dispatch(uiActions.toggleLoggingIn(true));
+            };
+            
+            dispatch(loginActions.replaceLogin({
+                email: loginData.email || null,
+                password: loginData.password || null
+            }));
+        } catch (error) {
+            console.log(error);
+        }
+    }
+};
 
 export const fetchUsersData = () => {
     return async (dispatch) => {
