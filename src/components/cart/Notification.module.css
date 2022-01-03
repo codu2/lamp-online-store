@@ -14,6 +14,9 @@
 
 .message {
   font-size: 14px;
+  width: 70%;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .close-button {
