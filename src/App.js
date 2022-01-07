@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import './App.css';
 import Header from './components/header/Header';
@@ -33,8 +34,13 @@ function App() {
   return (
     <div className='container'>
       <Header />
-      <Main />
-      <Products />
+      <main>
+        <Routes>
+          <Route path="/" element={<Navigate replace to="/home" />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+        </Routes>
+      </main>
     </div>
   )
 };
