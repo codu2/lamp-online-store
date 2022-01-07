@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import classes from './Header.module.css';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -74,8 +75,8 @@ const Header = () => {
                     <p>lumière</p>
                 </div>
                 <ul className={classes.menu}>
-                    <li>Home</li>
-                    <li>Products</li>
+                    <li><Link to="/home">Home</Link></li>
+                    <li><Link to="/products">Products</Link></li>
                     <li>Features</li>
                     <li>Packaging</li>
                     <li>Sale</li>
