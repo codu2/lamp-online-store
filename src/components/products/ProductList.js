@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from './Products.module.css';
+import classes from './ProductList.module.css';
 import ProductItem from './ProductItem';
 
 const DUMMY_PRODUCTS = [
@@ -49,7 +49,7 @@ const productsList = (
     </ul>
 )
 
-const Products = () => {
+const ProductList = () => {
     return (
         <div className={classes['products']}>
             <h1>Products</h1>
@@ -58,4 +58,4 @@ const Products = () => {
     )
 };
 
-export default Products;
+export default ProductList;
