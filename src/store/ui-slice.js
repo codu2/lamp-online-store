@@ -9,9 +9,28 @@ const uiSlice = createSlice({
             cart: false
         },
         isOrderFormVisible: false,
-        loggingIn: false
+        loggingIn: false,
+        productDetail: {
+            id: null,
+            name: null,
+            price: null,
+            color: null,
+            img: null,
+            quantity: 1
+        },
+        products: {}
     },
     reducers: {
+        getProducts(state, action) {
+            state.products = action.payload;
+        },
+        replaceProductDetail(state, action) {
+            state.productDetail.id = action.payload.id;
+            state.productDetail.name = action.payload.name;
+            state.productDetail.price = action.payload.price;
+            state.productDetail.color = action.payload.color;
+            state.productDetail.img = action.payload.img;
+        },
         toggleLoggingIn(state, action) {
             state.loggingIn = action.payload;
         },
