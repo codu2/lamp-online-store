@@ -23,6 +23,16 @@
   font-size: 14px;
 }
 
+.menu a {
+  color: #000;
+  text-decoration: none;
+}
+
+.menu a:hover,
+.menu a:active {
+  color: olive;
+}
+
 .actions {
   display: flex;
   gap: 15px;
