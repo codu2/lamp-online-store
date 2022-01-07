@@ -3,10 +3,34 @@ import { cartActions } from "./cart-slice";
 import { signupActions } from "./signup-slice";
 import { loginActions } from "./login-slice";
 
+export const fetchProductsData = () => {
+    return async (dispatch) => {
+        const fetchData = async () => {
+            const response = await fetch('YOUR FIREBASE URL/products.json');
+        
+            if(!response.ok) {
+                throw new Error ('Fetching products data failed!');
+            };
+
+            const data = await response.json();
+
+            return data;
+        }
+
+        try {
+            const products = await fetchData();
+
+            dispatch(uiActions.getProducts(products));
+        } catch (error) {
+            console.log(error)
+        };
+    };
+};
+
 export const fetchLoginData = () => {
     return async (dispatch) => {
         const fetchData = async () => {
-            const response = await fetch('https://react-http-5552c-default-rtdb.firebaseio.com/user.json');
+            const response = await fetch('YOUR FIREBASE URL/user.json');
 
             if(!response.ok) {
                 throw new Error ('Fetching login data failed!');
@@ -30,8 +54,8 @@ export const fetchLoginData = () => {
             }));
         } catch (error) {
             console.log(error);
-        }
-    }
+        };
+    };
 };
 
 export const fetchUsersData = () => {
@@ -54,8 +78,8 @@ export const fetchUsersData = () => {
             dispatch(signupActions.replaceUsers(users));
         } catch (error) {   
             console.log(error)
-        }
-    }
+        };
+    };
 };
 
 export const signupRequest = user => {
@@ -79,9 +103,9 @@ export const signupRequest = user => {
             await sendRequest();
         } catch (error) {
             console.log(error);
-        }
-    }
-}
+        };
+    };
+};
 
 
 export const sendUserData = user => {
@@ -104,9 +128,9 @@ export const sendUserData = user => {
             await sendRequest();
         } catch(error) {
             console.log(error);
-        }
-    }
-}
+        };
+    };
+};
 
 export const fetchCartData = () => {
     return async (dispatch) => {
@@ -135,9 +159,9 @@ export const fetchCartData = () => {
                 title: 'Error',
                 message: 'Fetching cart data failed. Please reloading page.'
             }));
-        }
-    }
-}
+        };
+    };
+};
 
 export const sendOrderData = order => {
     return async (dispatch) => {
@@ -177,10 +201,9 @@ export const sendOrderData = order => {
                 title: 'Error',
                 message: 'Sending order data failed.'
             }));
-        }
-
-    }
-}
+        };
+    };
+};
 
 export const sendCartData = cart => {
     return async (dispatch) => {
@@ -206,6 +229,6 @@ export const sendCartData = cart => {
                 title: 'Error',
                 message: 'Sending cart data failed.'
             }));
-        }
-    }
-} 
+        };
+    };
+} ;
