@@ -4,9 +4,10 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 import './App.css';
 import Header from './components/header/Header';
-import Main from './components/main/Main';
-import Products from './components/products/Products';
-import { fetchCartData, sendCartData, fetchUsersData, fetchLoginData } from './store/cart-action';
+import Home from './pages/Home';
+import Products from './pages/Products';
+import ProductPage from './pages/ProductPage';
+import { fetchCartData, sendCartData, fetchUsersData, fetchLoginData, fetchProductsData } from './store/cart-action';
 
 let isInitial = true;
 
@@ -15,6 +16,7 @@ function App() {
   const cart = useSelector(state => state.cart);
   
   useEffect(() => {
+    dispatch(fetchProductsData());
     dispatch(fetchCartData());
     dispatch(fetchUsersData());
     dispatch(fetchLoginData());
@@ -39,6 +41,7 @@ function App() {
           <Route path="/" element={<Navigate replace to="/home" />} />
           <Route path="/home" element={<Home />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/products/:productId" element={<ProductPage />} />
         </Routes>
       </main>
     </div>
