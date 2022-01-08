@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import classes from './Header.module.css';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -68,6 +68,11 @@ const Header = () => {
 
     const showProfile = loggingIn ? profile : null;
 
+    const activeStyle = {
+        color: 'olive',
+        fontWeight: 600
+    };
+
     return (
         <React.Fragment>
             <div className={classes.header}>
@@ -75,8 +80,8 @@ const Header = () => {
                     <p>lumière</p>
                 </div>
                 <ul className={classes.menu}>
-                    <li><Link to="/home">Home</Link></li>
-                    <li><Link to="/products">Products</Link></li>
+                    <li><NavLink style={({isActive}) => isActive ? activeStyle : undefined} to="/home">Home</NavLink></li>
+                    <li><NavLink style={({isActive}) => isActive ? activeStyle : undefined} to="/products">Products</NavLink></li>
                     <li>Features</li>
                     <li>Packaging</li>
                     <li>Sale</li>
