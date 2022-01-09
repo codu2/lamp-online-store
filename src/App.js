@@ -3,10 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import './App.css';
-import Header from './components/header/Header';
+import Layout from './components/header/Layout';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import ProductPage from './pages/ProductPage';
+import NotFound from './pages/NotFound';
 import { fetchCartData, sendCartData, fetchUsersData, fetchLoginData, fetchProductsData } from './store/cart-action';
 
 let isInitial = true;
@@ -35,15 +36,16 @@ function App() {
   
   return (
     <div className='container'>
-      <Header />
-      <main>
-        <Routes>
-          <Route path="/" element={<Navigate replace to="/home" />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/products/:productId" element={<ProductPage />} />
-        </Routes>
-      </main>
+      <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Navigate replace to="/home" />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/products" element={<Products />}>
+              <Route path=":productId" element={<ProductPage />} />
+            </Route>
+          </Route>
+          <Route path="*" element={<NotFound />} />
+      </Routes>
     </div>
   )
 };
