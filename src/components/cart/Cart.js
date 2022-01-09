@@ -18,16 +18,13 @@ const Cart = props => {
     const isOrderFormVisible = useSelector(state => state.ui.isOrderFormVisible);
     const loggingIn = useSelector(state => state.ui.loggingIn);
     
-    const showOrderFormHandler = () => {
-        dispatch(uiActions.showOrderForm());
-        
+    const showOrderFormHandler = () => {     
         if(!loggingIn) {
-            dispatch(uiActions.showRequestResult({
-                status: null,
-                title: 'No account',
-                message: "Please log in your account to order. If you don't have an account, sign up."
-            }));
-        };
+            dispatch(uiActions.closeCartForm());
+            dispatch(uiActions.toggleUserForm(true));
+        } else {
+            dispatch(uiActions.showOrderForm());
+        };      
     };
 
     const CartList = () => {
