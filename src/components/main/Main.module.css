@@ -52,3 +52,44 @@
   background-color: #000;
   color: #fff;
 }
+
+@media screen and (max-width: 767px) {
+  .main-container {
+    display: flex;
+  }
+
+  .left-section {
+    width: 100%;
+    height: 70%;
+  }
+
+  .left-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .paragraph {
+    top: 73%;
+    left: 1rem;
+    width: 100%;
+  }
+
+  .paragraph h1 {
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 15px;
+  }
+
+  .paragraph p {
+    font-size: 13px;
+    margin-top: 15px;
+  }
+
+  .more-button {
+    position: absolute;
+    right: 2rem;
+    bottom: -60px;
+    width: 150px;
+  }
+}
