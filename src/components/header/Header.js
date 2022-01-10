@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
@@ -10,6 +10,8 @@ import Cart from '../cart/Cart';
 import { uiActions } from '../../store/ui-slice';
 import { RiUserSmileLine } from 'react-icons/ri';
 import { sendUserData } from '../../store/cart-action';
+import { HiOutlineMenu } from 'react-icons/hi';
+import Confirm from './Confirm';
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -19,16 +21,28 @@ const Header = () => {
     const loggingIn = useSelector(state => state.ui.loggingIn);
     const users = useSelector(state => state.signup.users);
     const entered = useSelector(state => state.login.input);
+    
+    const [toggleMenu, setToggleMenu] = useState(false);
+    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+    
+    const toggleMenuHandler = () => {
+        setToggleMenu(prev => !prev)
+    };
+    
+     const logoutHandler = () => {
+        dispatch(uiActions.toggleLoggingIn(false));
+        dispatch(sendUserData({
+            email: null,
+            password: null
+        }));
+        setShowLogoutConfirm(false);
+        setTimeout(() => window.location.replace("/"), 1000)
+    };
 
     const toggleLoginHandler = () => {
         if(loggingIn) {
             dispatch(uiActions.toggleUserForm(false));
-            dispatch(uiActions.toggleLoggingIn(false));
-            dispatch(sendUserData({
-                email: null,
-                password: null
-            }));
-            window.location.replace("/");
+            setShowLogoutConfirm(true);
         } else {
             dispatch(uiActions.toggleUserForm(true));
         };
@@ -68,6 +82,8 @@ const Header = () => {
 
     const showProfile = loggingIn ? profile : null;
 
+    const menuClasses = `${classes.menu} ${toggleMenu ? classes.active : ''}`;
+
     const activeStyle = {
         color: 'olive',
         fontWeight: 600
@@ -76,6 +92,9 @@ const Header = () => {
     return (
         <React.Fragment>
             <div className={classes.header}>
+                <div className={classes.toggle} onClick={toggleMenuHandler}>
+                    <HiOutlineMenu />
+                </div>
                 <div className={classes.logo}>
                     <p>lumière</p>
                 </div>
@@ -101,6 +120,7 @@ const Header = () => {
             </div>
             {userControl && <User onClose={closeLoginHanlder} />}
             {cartTotalQuantity !== 0  && cartControl && <Cart onClose={closeCartHandler} />}
+            {showLogoutConfirm && <Confirm onLogout={logoutHandler} username={usersName}/>}
         </React.Fragment>
     )
 };
