@@ -41,7 +41,7 @@ const ProductItem = props => {
         <img src={img} alt="lamp" />
         <div className={classes['product-box']}>
             <div className={classes.name} onClick={productClickHandler}>
-                <Link to={`/products/${name.replace(/(\s*)/g, "")}`}>{name}</Link>
+                <Link to={`/products/${name.replace(/(\s*)/g, "")}`} replace={true}>{name}</Link>
             </div>
             <div className={classes['product-info']}>
                 <span>{color}</span>
