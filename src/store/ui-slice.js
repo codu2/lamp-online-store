@@ -18,9 +18,17 @@ const uiSlice = createSlice({
             img: null,
             quantity: 1
         },
-        products: {}
+        products: {},
+        reviews: {},
+        isLoading: false
     },
     reducers: {
+        changeLoadingState(state, action) {
+            state.isLoading = action.payload;
+        },
+        getReviews(state, action) {
+            state.reviews = action.payload;
+        },
         getProducts(state, action) {
             state.products = action.payload;
         },
