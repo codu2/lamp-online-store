@@ -5,7 +5,6 @@ import classes from './Cart.module.css';
 import CartItem from './CartItem';
 import { uiActions } from '../../store/ui-slice';
 import OrderForm from './OrderForm';
-import Notification from './Notification';
 
 const Backdrop = props => {
     return <div className={classes.backdrop} onClick={props.onClose} />
@@ -49,7 +48,6 @@ const Cart = props => {
             <div className={classes.cart}>
                 {!isOrderFormVisible && <CartList />}
                 {isOrderFormVisible && !notification && loggingIn && <OrderForm />}
-                {isOrderFormVisible && notification && <Notification status={notification.status} title={notification.title} message={notification.message} />}
             </div>
         </React.Fragment>
     )
