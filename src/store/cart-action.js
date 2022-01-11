@@ -3,10 +3,66 @@ import { cartActions } from "./cart-slice";
 import { signupActions } from "./signup-slice";
 import { loginActions } from "./login-slice";
 
+const httpURL = 'YOUR FIREBASE URL';
+
+export const fetchReviewData = (productId) => {
+    return async (dispatch) => {
+        const fetchData = async () => {
+            const response = await fetch(`${httpURL}/review/${productId}.json`);
+
+            if(!response.ok) {
+                throw new Error ('Fetching review data failed!');
+            };
+
+            const data = response.json();
+
+            return data;
+        };
+
+        try {
+            const reviews = await fetchData();
+
+            dispatch(uiActions.getReviews(reviews));
+            console.log(reviews)
+        } catch (error) {
+            console.log(error);
+        };
+    };
+};
+
+export const sendReviewData = (review, productId) => {
+    return async (dispatch) => {
+        const sendRequest = async () => {
+            const response = await fetch(`${httpURL}/review/${productId}.json`, {
+                method: "POST",
+                body: JSON.stringify({
+                    id: Math.floor(Math.random() * 10),
+                    name: review.name,
+                    scope: review.scope,
+                    text: review.text
+                })
+            });
+
+            if(!response.ok) {
+                throw new Error ('Sending review data failed!');
+            };
+        };
+
+        try {
+            dispatch(uiActions.changeLoadingState(true));
+            await sendRequest();
+
+            dispatch(uiActions.changeLoadingState(false));
+        } catch (error) {
+            console.log(error);
+        };
+    };
+};
+
 export const fetchProductsData = () => {
     return async (dispatch) => {
         const fetchData = async () => {
-            const response = await fetch('YOUR FIREBASE URL/products.json');
+            const response = await fetch(`${httpURL}/products.json`);
         
             if(!response.ok) {
                 throw new Error ('Fetching products data failed!');
@@ -30,7 +86,7 @@ export const fetchProductsData = () => {
 export const fetchLoginData = () => {
     return async (dispatch) => {
         const fetchData = async () => {
-            const response = await fetch('YOUR FIREBASE URL/user.json');
+            const response = await fetch(`${httpURL}/user.json`);
 
             if(!response.ok) {
                 throw new Error ('Fetching login data failed!');
@@ -61,7 +117,7 @@ export const fetchLoginData = () => {
 export const fetchUsersData = () => {
     return async (dispatch) => {
         const fetchData = async () => {
-            const response = await fetch('YOUR FIREBASE URL/users.json');
+            const response = await fetch(`${httpURL}/users.json`);
 
             if(!response.ok) {
                 throw new Error ('Fetching users data failed!');
@@ -85,7 +141,7 @@ export const fetchUsersData = () => {
 export const signupRequest = user => {
     return async () => {
         const sendRequest = async () => {
-            const response = await fetch('YOUR FIREBASE URL/users.json', {
+            const response = await fetch(`${httpURL}/users.json`, {
                 method: 'POST',
                 body: JSON.stringify({
                     name: user.name,
@@ -111,7 +167,7 @@ export const signupRequest = user => {
 export const sendUserData = user => {
     return async (dispatch) => {
         const sendRequest = async () => {
-            const response = await fetch('YOUR FIREBASE URL/user.json', {
+            const response = await fetch(`${httpURL}/user.json`, {
                 method: 'PUT',
                 body: JSON.stringify({
                     email: user.email,
@@ -135,7 +191,7 @@ export const sendUserData = user => {
 export const fetchCartData = () => {
     return async (dispatch) => {
         const fetchData = async () => {
-            const response = await fetch('YOUR FIREBASE URL/cart.json');
+            const response = await fetch(`${httpURL}/cart.json`);
 
             if(!response.ok) {
                 throw new Error ('Could not fetch cart data!');
@@ -172,7 +228,7 @@ export const sendOrderData = order => {
                 massage: 'Sending order data...'
             }));
 
-            const response = await fetch('YOUR FIREBASE URL/users.json', {
+            const response = await fetch(`${httpURL}/order.json`, {
                 method: "PUT",
                 body: JSON.stringify({
                     name: order.name,
@@ -208,7 +264,7 @@ export const sendOrderData = order => {
 export const sendCartData = cart => {
     return async (dispatch) => {
         const sendRequest = async () => {
-            const response = await fetch('YOUR FIREBASE URL/cart.json', {
+            const response = await fetch(`${httpURL}/cart.json`, {
                 method: 'PUT',
                 body: JSON.stringify({
                     items: cart.items,
