@@ -29,7 +29,11 @@ const Header = () => {
         setToggleMenu(prev => !prev)
     };
     
-     const logoutHandler = () => {
+    const menuClickHandler = () => {
+        toggleMenuHandler();
+    }
+    
+    const logoutHandler = () => {
         dispatch(uiActions.toggleLoggingIn(false));
         dispatch(sendUserData({
             email: null,
@@ -99,8 +103,8 @@ const Header = () => {
                     <p>lumière</p>
                 </div>
                 <ul className={classes.menu}>
-                    <li><NavLink style={({isActive}) => isActive ? activeStyle : undefined} to="/home">Home</NavLink></li>
-                    <li><NavLink style={({isActive}) => isActive ? activeStyle : undefined} to="/products">Products</NavLink></li>
+                    <li onClick={menuClickHandler}><NavLink style={({isActive}) => isActive ? activeStyle : undefined} to="/home">Home</NavLink></li>
+                    <li onClick={menuClickHandler}><NavLink style={({isActive}) => isActive ? activeStyle : undefined} to="/products">Products</NavLink></li>
                     <li>Features</li>
                     <li>Packaging</li>
                     <li>Sale</li>
