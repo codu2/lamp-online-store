@@ -1,0 +1,6 @@
+.loading-spinner {
+  margin: 1.2rem 0;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}

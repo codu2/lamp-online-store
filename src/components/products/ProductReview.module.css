@@ -1,0 +1,56 @@
+.review {
+  width: 100%;
+  height: max-content;
+  margin-top: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #000;
+}
+
+.review-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.reviewer {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.scope {
+  list-style: none;
+  display: flex;
+}
+
+.scope li {
+  margin-left: 3px;
+}
+
+.scope li svg {
+  width: 15px;
+  height: 15px;
+  color: gold;
+  opacity: 0.8;
+}
+
+.review p {
+  font-size: 14px;
+  text-align: justify;
+  word-break: break-all;
+}
+
+@media screen and (max-width: 767px) {
+  .reviewer {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .scope li svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .review p {
+    font-size: 12px;
+  }
+}
