@@ -4,7 +4,7 @@
 
 .products h1 {
   text-align: center;
-  font-size: 23px;
+  font-size: 21px;
   font-weight: 700;
   margin-bottom: 1.5rem;
 }
@@ -13,5 +13,21 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-  justify-content: center;
+}
+
+.sorting {
+  margin-bottom: 1.5rem;
+}
+
+.sorting span {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.sorting button {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  margin-left: 10px;
+  cursor: pointer;
 }
