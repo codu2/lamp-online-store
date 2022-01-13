@@ -22,15 +22,15 @@
   display: flex;
 }
 
-.scope li {
+.scope svg {
+  width: 15px;
+  height: 15px;
+  color: gray;
   margin-left: 3px;
 }
 
-.scope li svg {
-  width: 15px;
-  height: 15px;
-  color: gold;
-  opacity: 0.8;
+svg.clicked {
+  color: #fcc419;
 }
 
 .review p {
@@ -45,7 +45,7 @@
     font-weight: 500;
   }
 
-  .scope li svg {
+  .scope svg {
     width: 14px;
     height: 14px;
   }
