@@ -1,3 +1,28 @@
+.review-container {
+  position: relative;
+}
+
+.block-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 140px;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  z-index: 2;
+}
+
+.block-form p {
+  font-size: 14px;
+  font-weight: 500;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .review-form {
   background-color: #f0f0f0;
   width: 100%;
@@ -10,16 +35,21 @@
   font-weight: 500;
 }
 
-.review-form-top input {
-  margin: 0.5rem 0 0.75rem;
-  outline: none;
-  padding: 5px;
+.star {
+  margin-top: 0.75rem;
 }
 
-.review-form-top label svg {
-  width: 15px;
-  height: 15px;
-  margin-right: 5px;
+.star svg {
+  color: gray;
+  cursor: pointer;
+}
+
+.star svg:hover {
+  color: #fcc419;
+}
+
+svg.clicked {
+  color: #fcc419;
 }
 
 .text-area {
@@ -37,6 +67,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  margin-top: 0.5rem;
 }
 
 .review-form-bottom button {
