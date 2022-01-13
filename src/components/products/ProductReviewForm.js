@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import classes from './ProductReviewForm.module.css';
 import { FaStar } from 'react-icons/fa';
 import { sendReviewData } from '../../store/cart-action';
-//import { uiActions } from '../../store/ui-slice';
+import { uiActions } from '../../store/ui-slice';
 
 export function useBlocker(blocker, when = true) {
     const { navigator } = useContext(NavigationContext);
@@ -36,6 +36,8 @@ export function usePrompt(message, when = true) {
     useBlocker(blocker, when);
 };
 
+const scope_array = [0, 1, 2, 3, 4];
+
 const ProductReviewForm = () => {
     const navigate = useNavigate();
     const params = useParams();
@@ -45,22 +47,38 @@ const ProductReviewForm = () => {
     const loggingIn = useSelector(state => state.ui.loggingIn);
     const users = useSelector(state => state.signup.users);
     const user = useSelector(state => state.login.input);
+    const scope = useSelector(state => state.ui.scope);
 
-    const [enteredScope, setEnteredScope] = useState(5);
     const [enteredText, setEnteredText] = useState('');
     const [isEntered, setIsEntering] = useState(false);
+    const [clicked, setClicked] = useState([
+        false, false, false, false, false
+    ]);
 
     const focusInputHandler = () => {
         setIsEntering(true);
     }
 
-    const scopeChangeHandler = event => {
-        setEnteredScope(event.target.value);
-    };
-
     const textChangeHandler = event => {
         setEnteredText(event.target.value);
     };
+    
+    const starClickHandler = index => {
+        let clickedStates = [...clicked];
+        for(let i = 0; i < 5; i++) {
+            clickedStates[i] = i <= index ? true : false;
+        };
+        setClicked(clickedStates);
+    };
+    
+    const getScopeNum = () => {
+        let scopeNum = clicked.filter(Boolean).length;
+        dispatch(uiActions.replaceScopeNum(scopeNum));
+    };
+
+    useEffect(() => {
+        getScopeNum();
+    }, [clicked]);
 
     let usersName;
 
@@ -72,23 +90,27 @@ const ProductReviewForm = () => {
             }
         }
     }
+    
+    const reviews = useSelector(state => state.ui.reviews);
+    let randomId = Math.floor(Math.random());
+
+    for(const key in reviews) {
+        if(reviews[key].id === randomId) {
+            randomId = Math.floor(Math.random());
+        };
+    };
 
     const addReviewHandler = () => {
-        console.log(enteredScope, enteredText);
         if(loggingIn) {
-            setEnteredScope(5);
             setEnteredText('');
             setIsEntering(false);
             dispatch(sendReviewData({
-                id: Math.floor(Math.random() * 10),
+                id: randomId,
                 name: usersName,
-                scope: enteredScope,
+                scope: scope,
                 text: enteredText
             }, params.productId));
             //dispatch(uiActions.changeLoadingState(true));
-        } else {
-            //dispatch(uiActions.toggleUserForm(true));
-            setEnteredText('You need to log in to write a review.');
         };
     };
 
@@ -104,26 +126,29 @@ const ProductReviewForm = () => {
     };
 
     return (
-        <form className={classes['review-form']} onSubmit={submitHandler}>
-            <div className={classes['review-form-top']}>
-                <div className={classes.reviewer}>{usersName ? usersName : null}</div>
-                <label htmlFor='scope'><FaStar /></label>
-                <input type="number" min="1" max="5" step="0.5" id="scope" value={enteredScope} onChange={scopeChangeHandler} onFocus={focusInputHandler} />
-            </div>
-            <div className={classes['review-form-bottom']}>
-                <textarea className={classes['text-area']} wrap='hard' rows="3" value={enteredText} onChange={textChangeHandler} onFocus={focusInputHandler} />
-                <button onClick={addReviewHandler}>Add</button>
-            </div>
-        </form>
+         <div className={classes['review-container']}>
+            {!loggingIn && 
+                <div className={classes['block-form']}>
+                    <p>You need to log in to write a review.</p>
+                </div>
+            }
+            <form className={classes['review-form']} onSubmit={submitHandler}>
+                <div className={classes['review-form-top']}>
+                    <div className={classes.reviewer}>{usersName ? usersName : null}</div>
+                    <div className={classes.star}>
+                        {
+                            scope_array.map((el, idx) => {
+                                return <FaStar key={idx} size="18" onClick={() => starClickHandler(el)} className={clicked[el] && classes.clicked} />
+                            })
+                        }
+                    </div>
+                </div>
+                <div className={classes['review-form-bottom']}>
+                    <textarea className={classes['text-area']} wrap='hard' rows="3" value={enteredText} onChange={textChangeHandler} onFocus={focusInputHandler} />
+                    <button onClick={addReviewHandler}>Add</button>
+                </div>
+            </form>
     )
 };
 
 export default ProductReviewForm;
-
-//리뷰를 등록한 다음 해당 페이지를 벗어나지 않고 등록된 리뷰를 loaindSpinner를 보여준 다음 바로 보여주고 싶은데
-//navigate(`/products/${params.productId}`);만 했을 때는 페이지가 움직이지 않아 등록된 리뷰들이 fetch되지 않아서 
-//새로 등록한 리뷰를 볼 수 없었다.
-//navigate(`/products/${params.productId}`);하기전에 products 페이지에 잠깐 갔다가 바로 해당 페이지로 돌아오니 
-//등록된 리뷰가 fetch 되어 바로 볼 수 있는 것처럼 되었다.
-//그러나 더 연구해봐야 할 듯 싶다. 
-//setTimeout을 사용한 이유는 사용자에게 loadingSpinner를 무조건적으로 보여주기 위해서이다.
