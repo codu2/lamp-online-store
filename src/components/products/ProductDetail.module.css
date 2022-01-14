@@ -37,6 +37,19 @@
 .product-info {
   display: flex;
   justify-content: space-between;
+  list-style: none;
+  font-size: 14px;
+}
+
+.product-info svg {
+  width: 13px;
+  height: 13px;
+  color: gray;
+  margin-left: 3px;
+}
+
+svg.clicked {
+  color: #fcc419;
 }
 
 .actions {
