@@ -1,53 +1,23 @@
 import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import classes from './ProductList.module.css';
 import ProductItem from './ProductItem';
-
-const DUMMY_PRODUCTS = [
-    {
-        id: 'p1',
-        name: 'Wall Lamp',
-        price: 50.07,
-        img: 'img/lamp1.jpg',
-        color: 'Green'
-    },
-    {
-        id: 'p2',
-        name: 'table Lamp',
-        price: 30.69,
-        img: 'img/lamp2.jpg',
-        color: 'Yellow'
-    },
-    {
-        id: 'p3',
-        name: 'Anywhere Lamp1',
-        price: 40.29,
-        img: 'img/lamp3.jpg',
-        color: 'Orange&Silver'
-    },
-    {
-        id: 'p4',
-        name: 'Anywhere Lamp2',
-        price: 40.29,
-        img: 'img/lamp4.jpg',
-        color: 'white&Black'
-    },
-    {
-        id: 'p5',
-        name: 'Vintage Lamp',
-        price: 40.85,
-        img: 'img/lamp5.jpg',
-        color: 'white&Black'
-    },
-]
 
 const ProductList = () => {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const queryParams = searchParams.get('sort');
+    
+    const products = useSelector(state => state.ui.products);
 
+    let products_array = [];
     const isSortingWall = queryParams === 'wall';
+
+    for(const key in products) {
+        products_array.push(products[key]);
+    };
 
     const sortProductsList = (products) => {
         const wallLamps = products.filter(product => product.sort === 'wall');
@@ -55,7 +25,7 @@ const ProductList = () => {
         return isSortingWall ? wallLamps : tableLamps;
     };
 
-    const sortedProducts = sortProductsList(DUMMY_PRODUCTS);
+    const sortedProducts = sortProductsList(products_array);
     
     const changeAllHandler = () => {
         navigate('/products');
@@ -76,7 +46,7 @@ const ProductList = () => {
     );
 
     const allList = (
-        DUMMY_PRODUCTS.map(product => (
+        products_array.map(product => (
             <ProductItem key={product.id} id={product.id} name={product.name} price={product.price} color={product.color} img={product.img} />
         ))
     );
