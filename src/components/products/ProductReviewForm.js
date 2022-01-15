@@ -1,10 +1,10 @@
 import React, { useState, useContext, useCallback, useEffect } from 'react';
-import { UNSAFE_NavigationContext as NavigationContext, useParams, useNavigate } from 'react-router-dom';
+import { UNSAFE_NavigationContext as NavigationContext, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import classes from './ProductReviewForm.module.css';
 import { FaStar } from 'react-icons/fa';
-import { sendReviewData } from '../../store/cart-action';
+import { sendReviewData, fetchReviewData } from '../../store/cart-action';
 import { uiActions } from '../../store/ui-slice';
 
 export function useBlocker(blocker, when = true) {
@@ -39,9 +39,8 @@ export function usePrompt(message, when = true) {
 const scope_array = [0, 1, 2, 3, 4];
 
 const ProductReviewForm = () => {
-    const navigate = useNavigate();
     const params = useParams();
-    console.log(params.productId)
+    const { productId } = params;
 
     const dispatch = useDispatch();
     const loggingIn = useSelector(state => state.ui.loggingIn);
@@ -71,14 +70,14 @@ const ProductReviewForm = () => {
         setClicked(clickedStates);
     };
     
-    const getScopeNum = () => {
+    const getScopeNum = useCallback(() => {
         let scopeNum = clicked.filter(Boolean).length;
         dispatch(uiActions.replaceScopeNum(scopeNum));
-    };
+    }, [clicked, dispatch]);
 
     useEffect(() => {
         getScopeNum();
-    }, [clicked]);
+    }, [clicked, getScopeNum]);
 
     let usersName;
 
@@ -92,12 +91,17 @@ const ProductReviewForm = () => {
     }
     
     const reviews = useSelector(state => state.ui.reviews);
-    let randomId = Math.floor(Math.random());
+    let randomId = Math.floor(Math.random() * 24);
+    let id_array = [];
 
     for(const key in reviews) {
-        if(reviews[key].id === randomId) {
-            randomId = Math.floor(Math.random());
-        };
+        id_array.push(reviews[key].id);
+    };
+
+    const existingId = id_array.find(id => id === randomId);
+
+    if(existingId) {
+        randomId = Math.floor(Math.random() * 1000);
     };
 
     const addReviewHandler = () => {
@@ -109,7 +113,7 @@ const ProductReviewForm = () => {
                 name: usersName,
                 scope: scope,
                 text: enteredText
-            }, params.productId));
+            }, productId));
             //dispatch(uiActions.changeLoadingState(true));
         };
     };
@@ -120,9 +124,12 @@ const ProductReviewForm = () => {
         event.preventDefault();
 
         setTimeout(() => {
-            navigate('/products');
-            navigate(`/products/${params.productId}`);
+            dispatch(fetchReviewData(productId));
         }, 800);
+        
+        setClicked([
+            false, false, false, false, false
+        ]);
     };
 
     return (
@@ -148,6 +155,7 @@ const ProductReviewForm = () => {
                     <button onClick={addReviewHandler}>Add</button>
                 </div>
             </form>
+         </div>
     )
 };
 
