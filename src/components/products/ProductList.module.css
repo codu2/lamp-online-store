@@ -10,18 +10,13 @@
 }
 
 .products-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
 }
 
 .sorting {
   margin-bottom: 1.5rem;
-}
-
-.sorting span {
-  font-size: 15px;
-  font-weight: 500;
 }
 
 .sorting button {
@@ -30,4 +25,20 @@
   background-color: transparent;
   margin-left: 10px;
   cursor: pointer;
+  opacity: 0.6;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.sorting button:hover,
+.sorting button.active {
+  opacity: 1;
+}
+
+@media screen and (max-width: 990px) {
+  .products-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
