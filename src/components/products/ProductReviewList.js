@@ -1,25 +1,69 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import LoadingSpinner from '../ui/LoadingSpinner';
-
-import ProductReview from './ProductReview';
-import ProductReviewForm from './ProductReviewForm';
 
 import classes from './ProductReviewList.module.css';
+import ProductReview from './ProductReview';
+import ProductReviewForm from './ProductReviewForm';
+import LoadingSpinner from '../ui/LoadingSpinner';
 
 const ProductReviewList = () => {
     const reviews = useSelector(state => state.ui.reviews);
     const isLoading = useSelector(state => state.ui.isLoading);
     
+    const [sortingState, setSortingState] = useState(null);
+    
     let reviews_array = [];
+    let reviews_list = [];
 
     for(const key in reviews) {
         reviews_array.push(reviews[key])
-    }
+    };
+    
+    let sortLatestReviews = [...reviews_array];
+    let sortAscendingReviews = [...reviews_array];
+    let sortDescendingReviews = [...reviews_array];
+
+    if(sortingState === 'latest') {
+        reviews_list = sortLatestReviews.reverse(); 
+    };
+
+    if(sortingState === 'ascending') {
+        reviews_list = sortAscendingReviews.sort(function(a, b) {
+            if(a.scope > b.scope) return 1;
+            if(a.scope === b.scope) return 0;
+            if(a.scope < b.scope) return -1;
+        })
+    };
+
+    if(sortingState === "descending") {
+        reviews_list = sortDescendingReviews.sort(function(a, b) {
+            if(b.scope > a.scope) return 1;
+            if(b.scope === a.scope) return 0;
+            if(b.scope < a.scope) return -1;
+        })
+    };
+
+    const sortLatestHandler = () => {
+        setSortingState('latest');
+    };
+
+    const sortAscendingHandler = () => {
+        setSortingState('ascending');
+    };
+    
+    const sortDescendingHandler = () => {
+        setSortingState('descending');
+    }  ;
 
     const review_list = (
         <ul className={classes['review-align']}>
             {reviews_array.map(review => <ProductReview key={review.id} id={review.id} name={review.name} scope={review.scope} text={review.text} />)}
+        </ul>
+    )
+    
+    const sortedReview_list = (
+        <ul className={classes['review-align']}>
+            {reviews_list.map(review => <ProductReview key={review.id} id={review.id} name={review.name} scope={review.scope} text={review.text} />)}
         </ul>
     )
 
@@ -28,13 +72,14 @@ const ProductReviewList = () => {
             <h1>Review</h1>
             <ProductReviewForm />
             {isLoading ? <LoadingSpinner /> : null}
-            {reviews ? review_list : null}
+            <div className={classes['sort-button']}>
+                <button onClick={sortLatestHandler} className={latestButtonClasses}>Latest</button>
+                <button onClick={sortAscendingHandler} className={ascendingButtonClasses}>Ascending</button>
+                <button onClick={sortDescendingHandler} className={descendingButtonClasses}>Descending</button>
+            </div>
+            {sortingState ? sortedReview_list : review_list}
         </div>
     )
 };
 
 export default ProductReviewList;
-
-//firebase에서 데이터를 객체로 받아오므로 해당 데이터를 map 하기 위해서는 
-//받아온 객체를 배열로 바꿀 필요가 있다. 따라서 for in 루프를 사용해 해당 객체 안에 있는
-//객체들을 꺼내 새로운 빈 배열에 담아주고 그 배열을 map하여 review list를 렌더했다.
