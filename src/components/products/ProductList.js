@@ -51,14 +51,17 @@ const ProductList = () => {
         ))
     );
 
+    const allClasses = `${queryParams === null ? classes.active : ''}`;
+    const wallClasses = `${queryParams === 'wall' ? classes.active : ''}`;
+    const tableClasses = `${queryParams === 'table' ? classes.active : ''}`;
+
     return (
         <div className={classes['products']}>
             <h1>Products</h1>
             <div className={classes.sorting}>
-                <span>Sort</span>
-                <button onClick={changeAllHandler}>All</button>
-                <button onClick={changewallHandler}>Wall Lamps</button>
-                <button onClick={changetableHandler}>Table Lamps</button>
+                <button onClick={changeAllHandler} className={allClasses}>All</button>
+                <button onClick={changewallHandler} className={wallClasses}>Wall Lamps</button>
+                <button onClick={changetableHandler} className={tableClasses}>Table Lamps</button>
             </div>
             <ul className={classes['products-list']}>
                 {queryParams ? sortList : allList}
