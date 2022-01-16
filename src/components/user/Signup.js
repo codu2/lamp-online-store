@@ -156,13 +156,13 @@ const Signup = props => {
             setEnteredPassword('');
             
             dispatch(uiActions.toggleUserForm(false));
+            window.location.reload();
         };
     }, [signup, dispatch]);
     
     const nameClasses = `${classes['input-box']} ${valid.nameIsValid && !touched.name ? '' : classes.invalid} ${exist.name ? classes.exist : ''}`;
     const emailClasses = `${classes['input-box']} ${valid.emailIsValid && !touched.email ? '' : classes.invalid} ${exist.email ? classes.exist : ''}`;
     const passwordClasses = `${classes['input-box']} ${valid.passwordIsValid && !touched.password ? '' : classes.invalid}`;
-
 
     return (
         <form className={classes['signup-form']} onSubmit={submitHandler}>
