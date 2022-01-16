@@ -8,7 +8,7 @@
 
 .left-section {
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 98px);
 }
 
 .left-section img {
