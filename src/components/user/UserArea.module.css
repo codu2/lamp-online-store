@@ -1,0 +1,125 @@
+.input-form {
+  width: 100%;
+  height: calc(100vh - 82px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+}
+
+.input-form h1 {
+  text-align: center;
+  font-size: 27px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-box label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  margin-top: 1.3rem;
+}
+
+.input-box input {
+  width: 300px;
+  height: 35px;
+  outline: none;
+  padding: 5px 10px;
+}
+
+.form-trans {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 0.75rem 4rem;
+  border-top: 1px dashed #000;
+  border-bottom: 1px dashed #000;
+}
+
+.form-trans p {
+  font-size: 14px;
+}
+
+.form-trans button {
+  border: none;
+  font-weight: 700;
+  font-size: 15px;
+  background-color: transparent;
+  margin-top: 7px;
+  cursor: pointer;
+}
+
+.form-trans button:hover {
+  opacity: 0.6;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.submit-button {
+  width: 300px;
+  height: 45px;
+  background-color: #000;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 1.5rem 0 1.2rem;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  opacity: 0.8;
+}
+
+.submit-button:disabled {
+  opacity: 0.5;
+}
+
+.find-button {
+  border: none;
+  border-bottom: 1px solid transparent;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding-bottom: 5px;
+}
+
+.find-button:hover {
+  border-bottom: 1px solid #000;
+}
+
+.invalid label {
+  color: red;
+}
+
+.invalid input {
+  border: 1px solid red;
+}
+
+.invalid p {
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+.exist label {
+  color: green;
+}
+
+.exist input {
+  border: 1px solid green;
+}
+
+.exist p {
+  font-size: 10px;
+  margin-top: 5px;
+}
