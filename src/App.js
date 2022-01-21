@@ -12,6 +12,8 @@ import { fetchCartData, sendCartData, fetchUsersData, fetchLoginData, fetchProdu
 import UserArea from './components/user/UserArea';
 import Profile from './components/user/Profile';
 import AuthContext from './store/auth-context';
+import Cart from './components/cart/Cart';
+import OrderForm from './components/cart/OrderForm';
 
 let isInitial = true;
 
@@ -49,6 +51,9 @@ function App() {
             </Route>
             {!authCtx.isLoggedIn && <Route path="/user" element={<UserArea />} />}
             {authCtx.isLoggedIn && <Route path="/profile" element={<Profile />} />}
+            {!authCtx.isLoggedIn && <Route path="/profile" element={<Navigate replace to="/user" />} />}
+            <Route path="/cart" element={<CartPage />} />
+            {authCtx.isLoggedIn && <Route path="/order" element={<OrderForm />} />}
           </Route>
           <Route path="*" element={<NotFound />} />
       </Routes>
