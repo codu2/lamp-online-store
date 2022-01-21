@@ -1,55 +1,44 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import classes from './Cart.module.css';
 import CartItem from './CartItem';
-import { uiActions } from '../../store/ui-slice';
-import OrderForm from './OrderForm';
-
-const Backdrop = props => {
-    return <div className={classes.backdrop} onClick={props.onClose} />
-  }
+import AuthContext from '../../store/auth-context';
 
 const Cart = props => {
-    const dispatch = useDispatch();
+   const navigate = useNavigate();
+    const authCtx = useContext(AuthContext);
     const cartItems = useSelector(state => state.cart.items);
-    const notification = useSelector(state => state.ui.notification);
-    const isOrderFormVisible = useSelector(state => state.ui.isOrderFormVisible);
-    const loggingIn = useSelector(state => state.ui.loggingIn);
-    
-    const showOrderFormHandler = () => {     
-        if(!loggingIn) {
-            dispatch(uiActions.closeCartForm());
-            dispatch(uiActions.toggleUserForm(true));
+
+    const showOrderFormHandler = () => {
+        if(authCtx.isLoggedIn) {
+            navigate('/order');
         } else {
-            dispatch(uiActions.showOrderForm());
-        };      
+            navigate('/user');
+        };
     };
 
-    const CartList = () => {
-        return (
-            <React.Fragment>
-                <h1>Your Cart</h1>
-                <ul className={classes['cart-item-list']}>
-                    {cartItems.map(item => (
-                        <CartItem key={item.id} item={{id: item.id, name: item.name, price: item.price, color: item.color, img: item.img, quantity: item.quantity, totalPrice: item.totalPrice}} />
-                    ))}
-                </ul>
+    const CartList = (
+        <React.Fragment>
+            <ul className={classes['cart-item-list']}>
+                {cartItems.map(item => (
+                    <CartItem key={item.id} item={{id: item.id, name: item.name, price: item.price, color: item.color, img: item.img, quantity: item.quantity, totalPrice: item.totalPrice}} />
+                ))}
+            </ul>
+            <div className={classes.action}>
                 <button className={classes['order-button']} onClick={showOrderFormHandler}>Order</button>    
-            </React.Fragment>
-        )
-    };
-
-    //<Notification status={notification.status} title={notification.title} message={notification.message} />
+            </div>
+        </React.Fragment>
+    );
 
     return (
         <React.Fragment>
-            <Backdrop onClose={props.onClose} />
             <div className={classes.cart}>
-                {!isOrderFormVisible && <CartList />}
-                {isOrderFormVisible && !notification && loggingIn && <OrderForm />}
+                <h1>Your Cart</h1>
+                {cartItems.length !== 0 ? CartList : <p>Empty Cart!</p>}
             </div>
-        </React.Fragment>
+        </React.Fragment>    
     )
 };
 
