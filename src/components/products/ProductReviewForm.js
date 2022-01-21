@@ -6,6 +6,7 @@ import classes from './ProductReviewForm.module.css';
 import { FaStar } from 'react-icons/fa';
 import { sendReviewData, fetchReviewData } from '../../store/cart-action';
 import { uiActions } from '../../store/ui-slice';
+import AuthContext from '../../store/auth-context';
 
 export function useBlocker(blocker, when = true) {
     const { navigator } = useContext(NavigationContext);
@@ -39,11 +40,11 @@ export function usePrompt(message, when = true) {
 const scope_array = [0, 1, 2, 3, 4];
 
 const ProductReviewForm = () => {
+    const authCtx = useContext(AuthContext);
     const params = useParams();
     const { productId } = params;
 
     const dispatch = useDispatch();
-    const loggingIn = useSelector(state => state.ui.loggingIn);
     const users = useSelector(state => state.signup.users);
     const user = useSelector(state => state.login.input);
     const scope = useSelector(state => state.ui.scope);
@@ -105,7 +106,7 @@ const ProductReviewForm = () => {
     };
 
     const addReviewHandler = () => {
-        if(loggingIn) {
+        if(authCtx.isLoggedIn) {
             setEnteredText('');
             setIsEntering(false);
             dispatch(sendReviewData({
@@ -134,7 +135,7 @@ const ProductReviewForm = () => {
 
     return (
          <div className={classes['review-container']}>
-            {!loggingIn && 
+            {!authCtx.isLoggedIn && 
                 <div className={classes['block-form']}>
                     <p>You need to log in to write a review.</p>
                 </div>
