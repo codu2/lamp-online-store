@@ -1,6 +1,6 @@
 .input-form {
   width: 100%;
-  height: calc(100vh - 82px);
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -98,6 +98,10 @@
   border-bottom: 1px solid #000;
 }
 
+.invalid {
+  width: 300px;
+}
+
 .invalid label {
   color: red;
 }
@@ -107,19 +111,6 @@
 }
 
 .invalid p {
-  font-size: 10px;
-  margin-top: 5px;
-}
-
-.exist label {
-  color: green;
-}
-
-.exist input {
-  border: 1px solid green;
-}
-
-.exist p {
-  font-size: 10px;
+  font-size: 8px;
   margin-top: 5px;
 }
