@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, Link } from 'react-router-dom';
 
 import classes from './MainNavigation.module.css';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -13,6 +13,18 @@ const MainNavigation = () => {
     const navigate = useNavigate();
     const authCtx = useContext(AuthContext);
     const cartTotalQuantity = useSelector(state => state.cart.totalQuantity);
+    
+    const [toggleMenu, setToggleMenu] = useState(false);
+
+    const toggleMenuHandler = () => {
+        setToggleMenu(prev => !prev)
+    };
+
+    const menuActiveHandler = () => {
+        setToggleMenu(prev => !prev)
+    };
+
+    const menuClasses = `${classes.menu} ${toggleMenu ? classes.active : ''}`;
 
     const activeStyle = {
         color: 'olive',
@@ -39,25 +51,27 @@ const MainNavigation = () => {
     return (
         <React.Fragment>
             <div className={classes.header}>
-                <div className={classes.toggle}>
+                <div className={classes.toggle} onClick={toggleMenuHandler}>
                     <HiOutlineMenu />
                 </div>
                 <div className={classes.logo}>
                     <p>lumière</p>
                 </div>
                 <ul className={classes.menu}>
-                    <li><NavLink style={({isActive}) => isActive ? activeStyle : undefined} to="/home">Home</NavLink></li>
-                    <li><NavLink style={({isActive}) => isActive ? activeStyle : undefined} to="/products">Products</NavLink></li>
+                    <li onClick={menuActiveHandler}><NavLink style={({isActive}) => isActive ? activeStyle : undefined} to="/home">Home</NavLink></li>
+                    <li onClick={menuActiveHandler}><NavLink style={({isActive}) => isActive ? activeStyle : undefined} to="/products">Products</NavLink></li>
                     <li>Features</li>
                     <li>Packaging</li>
                     <li>Sale</li>
                 </ul>
                 <div className={classes.actions}>
-                    <div className={classes.cart}>
-                        <AiOutlineShoppingCart />
-                        <span>Cart</span>
-                        <span>{cartTotalQuantity}</span>
-                    </div>
+                    <Link to="/cart">
+                        <div className={classes.cart}>
+                            <AiOutlineShoppingCart />
+                            <span>Cart</span>
+                            <span>{cartTotalQuantity}</span>
+                        </div>
+                    </Link>
                     {authCtx.isLoggedIn && (
                         <div onClick={profileHandler}>
                             <BiUserCircle />
