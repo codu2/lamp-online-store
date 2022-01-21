@@ -30,13 +30,18 @@
 
 .menu a:hover,
 .menu a:active {
-  color: olive;
+  color: gray;
 }
 
 .actions {
   display: flex;
   gap: 15px;
   font-size: 14px;
+}
+
+.actions a {
+  text-decoration: none;
+  color: #000;
 }
 
 .actions div {
