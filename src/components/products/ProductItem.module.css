@@ -64,8 +64,9 @@
 }
 
 .add-button:hover {
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(252, 252, 192, 0.6);
+  border: none;
+  font-weight: 800;
 }
 
 @media screen and (max-width: 990px) {
@@ -83,6 +84,7 @@
   .product-box {
     height: 80px;
     padding: 0.5rem 1rem 0.3rem;
+    justify-content: space-evenly;
   }
 
   .name {
@@ -90,7 +92,7 @@
   }
 
   .product-info {
-    font-size: 13px;
+    display: none;
   }
 
   .add-button {
