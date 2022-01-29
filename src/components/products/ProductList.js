@@ -1,8 +1,10 @@
 import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import classes from './ProductList.module.css';
+import '../../App.css';
 import ProductItem from './ProductItem';
 
 const ProductList = () => {
@@ -58,11 +60,15 @@ const ProductList = () => {
     return (
         <div className={classes['products']}>
             <h1>Products</h1>
-            <div className={classes.sorting}>
-                <button onClick={changeAllHandler} className={allClasses}>All</button>
-                <button onClick={changewallHandler} className={wallClasses}>Wall Lamps</button>
-                <button onClick={changetableHandler} className={tableClasses}>Table Lamps</button>
-            </div>
+                <TransitionGroup>
+                    <CSSTransition key={queryParams} timeout={300} classNames="fade">
+                        <div className={classes.sorting}>
+                            <button onClick={changeAllHandler} className={allClasses}>All</button>
+                            <button onClick={changewallHandler} className={wallClasses}>Wall Lamps</button>
+                            <button onClick={changetableHandler} className={tableClasses}>Table Lamps</button>
+                        </div>
+                    </CSSTransition>
+                </TransitionGroup>        
             <ul className={classes['products-list']}>
                 {queryParams ? sortList : allList}
             </ul>
