@@ -72,11 +72,11 @@ const ProductReviewList = () => {
             <h1>Review</h1>
             <ProductReviewForm />
             {isLoading ? <LoadingSpinner /> : null}
-            <div className={classes['sort-button']}>
+            {reviews && (<div className={classes['sort-button']}>
                 <button onClick={sortLatestHandler} className={latestButtonClasses}>Latest</button>
                 <button onClick={sortAscendingHandler} className={ascendingButtonClasses}>Ascending</button>
                 <button onClick={sortDescendingHandler} className={descendingButtonClasses}>Descending</button>
-            </div>
+            </div>)}
             {sortingState ? sortedReview_list : review_list}
         </div>
     )
