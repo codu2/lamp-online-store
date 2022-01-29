@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import './App.css';
 import Layout from './components/header/Layout';
@@ -12,7 +13,7 @@ import { fetchCartData, sendCartData, fetchUsersData, fetchLoginData, fetchProdu
 import UserArea from './components/user/UserArea';
 import Profile from './components/user/Profile';
 import AuthContext from './store/auth-context';
-import Cart from './components/cart/Cart';
+import CartPage from './components/cart/CartPage';
 import OrderForm from './components/cart/OrderForm';
 
 let isInitial = true;
@@ -21,6 +22,7 @@ function App() {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart);
   const authCtx = useContext(AuthContext);
+  const location = useLocation();
   
   useEffect(() => {
     dispatch(fetchProductsData());
@@ -42,21 +44,25 @@ function App() {
   
   return (
     <div className='container'>
-      <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Navigate replace to="/home" />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/products" element={<Products />}>
-              <Route path=":productId" element={<ProductPage />} />
+      <TransitionGroup>
+        <CSSTransition key={location.pathname} timeout={300} classNames="fade">
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<Navigate replace to="/home" />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/products" element={<Products />}>
+                <Route path=":productId" element={<ProductPage />} />
+              </Route>
+              {!authCtx.isLoggedIn && <Route path="/user" element={<UserArea />} />}
+              {authCtx.isLoggedIn && <Route path="/profile" element={<Profile />} />}
+              {!authCtx.isLoggedIn && <Route path="/profile" element={<Navigate replace to="/user" />} />}
+              <Route path="/cart" element={<CartPage />} />
+              {authCtx.isLoggedIn && <Route path="/order" element={<OrderForm />} />}
             </Route>
-            {!authCtx.isLoggedIn && <Route path="/user" element={<UserArea />} />}
-            {authCtx.isLoggedIn && <Route path="/profile" element={<Profile />} />}
-            {!authCtx.isLoggedIn && <Route path="/profile" element={<Navigate replace to="/user" />} />}
-            <Route path="/cart" element={<CartPage />} />
-            {authCtx.isLoggedIn && <Route path="/order" element={<OrderForm />} />}
-          </Route>
-          <Route path="*" element={<NotFound />} />
-      </Routes>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </CSSTransition>
+      </TransitionGroup>
     </div>
   )
 };
